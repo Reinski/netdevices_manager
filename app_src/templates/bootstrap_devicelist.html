@@ -1,0 +1,20 @@
+{% extends "list_devices.html" %}
+
+{% block content %}
+<table id="device_list" class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for hostname, dev_data in host_rows.items() %}
+        <tr>
+            <td><input type="checkbox" id="{{ hostname }}" name="device" value="{{ hostname }}"><label for="{{ hostname }}">{{ hostname }}</label></td>
+            <td><label for="{{ hostname }}">{{ dev_data['check-result'] }}</label></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

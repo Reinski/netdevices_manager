@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>{{ title }}</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    </head>
+    <body>
+    <div class="container">
+    <h2>{{ title }}</h2>
+    {% if message %}
+        {{ message }}<br /><br />
+    {% endif %}
+       <hr>
+      <form id="device_list">
+        {% block content %}{% endblock %}
+    <!--    <select name="device" multiple="multiple" size="10">
+            {% for item in host_rows %}
+            <option value="{{ item }}">{{ item }}</option>
+            {% endfor %}
+        </select>
+        {% for hostname, dev_data in host_rows.items() %}
+        <input type="checkbox" id="{{ hostname }}" name="device" value="{{ hostname }}">
+        <label for="{{ hostname }}">{{ hostname }}</label>
+        <label for="{{ hostname }}">Status: {{ dev_data['check-result'] }}</label>
+        <br>        
+        {% endfor %}
+    -->	<button type="submit" name="action" value="reboot" form="device_list">Reboot</button>
+        <button type="submit" name="action" value="shutdown" form="device_list">Shutdown</button>
+    </form>
+    </div>
+    </body>
+</html>

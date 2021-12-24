@@ -20,14 +20,20 @@ commands = {
     'check': {'cmd': 'nc -vz {host} 22', 'ok': '.*succeeded.*', 'cmdname': 'check'},
     'reboot': {'cmd': 'ssh {user}@{host} {sudo} reboot now', 'cmdname': 'reboot'},
     'shutdown': {'cmd': 'ssh {user}@{host} {sudo} shutdown now', 'cmdname': 'shutdown'},
+    'uptime': {'cmd': 'ssh {user}@{host} {sudo} uptime -s', 'cmdname': 'uptime'},
 }
 
 
 def update_device_statuses():
     global devices
     for device, dev_data in devices.items():
+        # check ssh connection
         result = execute_command(commands['check'], device, dev_data, False)
         dev_data['check-result'] = result
+        if result.lower() == 'ok':
+            # get uptime
+            result = execute_command(commands['uptime'], device, dev_data, False)
+            dev_data['uptime'] = result
     
 def process_devices(action, sel_devices, generate_messages = True):
     """Performs the specified action on the specified devices.

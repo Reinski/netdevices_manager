@@ -15,6 +15,7 @@
         <tr>
             <th>Name</th>
             <th>Status</th>
+            <th>Uptime</th>
         </tr>
     </thead>
     <tbody>
@@ -22,6 +23,7 @@
         <tr>
             <td><input type="checkbox" id="{{ hostname }}" name="device" value="{{ hostname }}"> <label for="{{ hostname }}">{{ hostname }}</label></td>
             <td><label for="{{ hostname }}">{{ dev_data['check-result'] }}</label></td>
+            <td><label for="{{ hostname }}">{{ dev_data['uptime'] }}</label></td>
         </tr>
         {% endfor %}
     </tbody>

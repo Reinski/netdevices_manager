@@ -1,12 +1,11 @@
-from flask import request
-from flask import render_template
+from flask import redirect, request, render_template, url_for
 from datetime import datetime
 from . import app
 from . import webapp
 
 @app.route('/')
 def home():
-    return "Reinski Network Management Page."
+    return redirect(url_for('list_devices'), code=302)
 
 
 @app.route("/manage/<name>")
@@ -25,6 +24,7 @@ def list_devices():
     msgtxt = None
     args = request.args.to_dict(flat=False)
     if len(args) > 0:
+        # process the command
         action = args.get('action', None)
         if action:
             action = action[0]
@@ -33,8 +33,8 @@ def list_devices():
                 msgtxt = "No devices selected!"
             else:
                 msgtxt = webapp.process_devices(action, sel_devices)
-                
-
-    # Build device list
-    webapp.update_device_statuses()
-    return render_template("bootstrap_devicelist.html", title = "Network Devices in Reinskis HomeNet", host_rows = webapp.devices, message = msgtxt)
+        return redirect(url_for('list_devices'), code=302)
+    else:
+        # Update and display device list
+        webapp.update_device_statuses()
+        return render_template("bootstrap_devicelist.html", title = "Network Devices in Reinskis HomeNet", host_rows = webapp.devices, message = msgtxt)

@@ -81,4 +81,4 @@ def execute_command(command, host, dev_data):
         return stdout.decode()
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0', port=4999)

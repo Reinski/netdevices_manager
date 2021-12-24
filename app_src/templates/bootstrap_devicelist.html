@@ -1,6 +1,15 @@
 {% extends "list_devices.html" %}
 
 {% block content %}
+<script language="JavaScript">
+    function toggle(checked, ctrlname) {
+        checkboxes = document.getElementsByName(ctrlname);
+        for(var i=0, n=checkboxes.length;i<n;i++) {
+            checkboxes[i].checked = checked;
+        }
+    }
+</script>
+<input type="checkbox" onClick="toggle(this.checked, 'device')" /> Toggle All<br/>
 <table id="device_list" class="table table-striped">
     <thead>
         <tr>
@@ -11,7 +20,7 @@
     <tbody>
         {% for hostname, dev_data in host_rows.items() %}
         <tr>
-            <td><input type="checkbox" id="{{ hostname }}" name="device" value="{{ hostname }}"><label for="{{ hostname }}">{{ hostname }}</label></td>
+            <td><input type="checkbox" id="{{ hostname }}" name="device" value="{{ hostname }}"> <label for="{{ hostname }}">{{ hostname }}</label></td>
             <td><label for="{{ hostname }}">{{ dev_data['check-result'] }}</label></td>
         </tr>
         {% endfor %}

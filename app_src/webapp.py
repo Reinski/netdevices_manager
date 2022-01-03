@@ -21,6 +21,7 @@ commands = {
     'reboot': {'cmd': 'ssh {user}@{host} {sudo} reboot now', 'cmdname': 'reboot'},
     'shutdown': {'cmd': 'ssh {user}@{host} {sudo} shutdown now', 'cmdname': 'shutdown'},
     'uptime': {'cmd': 'ssh {user}@{host} {sudo} uptime -s', 'cmdname': 'uptime'},
+    'model': {'cmd': 'ssh {user}@{host} cat /proc/device-tree/model', 'cmdname': 'model'},
 }
 
 
@@ -34,6 +35,8 @@ def update_device_statuses():
             # get uptime
             result = execute_command(commands['uptime'], device, dev_data, False)
             dev_data['uptime'] = result
+            result = execute_command(commands['model'], device, dev_data, False)
+            dev_data['model'] = result
     
 def process_devices(action, sel_devices, generate_messages = True):
     """Performs the specified action on the specified devices.

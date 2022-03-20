@@ -7,9 +7,11 @@ import re
 
 app=Flask(__name__)
 
+# The public key must be added to the target's authorized keys
 devices = {
     'mediamachine': {'user': 'root', 'sudo': '', },
     'mediamachine-rp4': {'user': 'root', 'sudo': '', },
+    'mediamachine-03': {'user': 'root', 'sudo': '', },
     'raspberrypi': {'user': 'pi', 'sudo': 'sudo', },
     'reinski-tvh': {'user': 'pi', 'sudo': 'sudo', },
     'reinskisnips': {'user': 'pi', 'sudo': 'sudo', },

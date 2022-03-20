@@ -5,9 +5,12 @@ from flask import flash
 import subprocess
 import re
 
+# The public key must be added to the target's authorized keys
+# Also, the hostkeys must be known and trusted without prompting for confirmation
 devices = {
     'mediamachine': {'user': 'root', 'sudo': '', },
     'mediamachine-rp4': {'user': 'root', 'sudo': '', },
+    'mediamachine-03': {'user': 'root', 'sudo': '', },
     'octoprint': {'user': 'pi', 'sudo': 'sudo', },
     'raspberrypi': {'user': 'pi', 'sudo': 'sudo', },
     'reinski-tvh': {'user': 'pi', 'sudo': 'sudo', },
@@ -96,4 +99,5 @@ def execute_command(command, host, dev_data, do_flash = True):
         return stdout.decode()
 
 if __name__ == '__main__':
+    print("starting server...")
     app.run(debug=True, host='0.0.0.0', port=4999)

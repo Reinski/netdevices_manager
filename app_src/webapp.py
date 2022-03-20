@@ -2,7 +2,9 @@
 from . import app    # For application discovery by the 'flask' command.
 from . import views  # For import side-effects of setting up routes.
 from flask import flash
+#from flask_socketio import SocketIO, emit
 import subprocess
+import threading
 import re
 
 # The public key must be added to the target's authorized keys
@@ -27,19 +29,26 @@ commands = {
     'model': {'cmd': 'ssh {user}@{host} cat /proc/device-tree/model', 'cmdname': 'model'},
 }
 
+def query_device_status(device, dev_data):
+    # check ssh connection
+    result = execute_command(commands['check'], device, dev_data, False)
+    dev_data['check-result'] = result
+    if result.lower() == 'ok':
+        # get uptime
+        result = execute_command(commands['uptime'], device, dev_data, False)
+        dev_data['uptime'] = result
+        result = execute_command(commands['model'], device, dev_data, False)
+        dev_data['model'] = result
 
 def update_device_statuses():
     global devices
+    tasks = []
     for device, dev_data in devices.items():
-        # check ssh connection
-        result = execute_command(commands['check'], device, dev_data, False)
-        dev_data['check-result'] = result
-        if result.lower() == 'ok':
-            # get uptime
-            result = execute_command(commands['uptime'], device, dev_data, False)
-            dev_data['uptime'] = result
-            result = execute_command(commands['model'], device, dev_data, False)
-            dev_data['model'] = result
+        trd = threading.Thread(target=query_device_status, args=(device, dev_data))
+        tasks.append(trd)
+        trd.start()
+    for trd in tasks:
+        trd.join()
     
 def process_devices(action, sel_devices, generate_messages = True):
     """Performs the specified action on the specified devices.

@@ -128,5 +128,3 @@ dmypy.json
 # Pyre type checker
 .pyre/
 nohup.out
-app_src/__pycache__/webapp.cpython-35.pyc
-app_src/__pycache__/webapp.cpython-35.pyc

@@ -15,6 +15,8 @@ devices = {
     'raspberrypi': {'user': 'pi', 'sudo': 'sudo', },
 }
 
+title = "Network Devices"
+
 commands = {
     'check': {'cmd': 'nc -vz {host} 22', 'ok': '.*succeeded.*', 'cmdname': 'check'},
     'reboot': {'cmd': 'ssh {user}@{host} {sudo} reboot now', 'cmdname': 'reboot'},
@@ -109,9 +111,10 @@ if cfg_file:
     with open(cfg_file, 'r') as stream:
         try:
             cfg = yaml.safe_load(stream)
-            devices = cfg['devices']
         except yaml.YAMLError as exc:
             print(exc)
+    devices = cfg.get('devices', devices)
+    title = cfg.get('title', title)
 print(devices)
 if __name__ == '__main__':
     print("starting server...")

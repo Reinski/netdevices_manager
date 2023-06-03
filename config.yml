@@ -1,4 +1,5 @@
 ---
+title: "Network Devices in Reinskis HomeNet"
 devices:
   mediamachine:
     user: 'root'

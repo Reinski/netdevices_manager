@@ -37,4 +37,4 @@ def list_devices():
     else:
         # Update and display device list
         webapp.update_device_statuses()
-        return render_template("bootstrap_devicelist.html", title = "Network Devices in Reinskis HomeNet", host_rows = webapp.devices, message = msgtxt)
+        return render_template("bootstrap_devicelist.html", title = webapp.title, host_rows = webapp.devices, message = msgtxt)

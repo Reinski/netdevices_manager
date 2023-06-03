@@ -13,8 +13,14 @@ $ nohup ./run &
 
 ## Security notes
 This solution uses the flask webserver which is not intended for production use. Please do not expect any stability or security!
+As password access is not implemented, the public key must be added to each target's authorized keys.
+Also, the hostkeys must be known to the web-server and trusted without prompting for confirmation.
+This means, you must be able to do ```ssh user_name@device_address``` from the applications environment without being prompted for any additional information.
 
 ## Configuration
+### Title
+Under the `title:` key, you can maintain a custom title for the device overview page.
+### Devices
 Maintain the devices in your network in the config.yml file under the `devices:` key.
 
 The structure for each device is:

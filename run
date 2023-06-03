@@ -2,4 +2,5 @@
 
 source .venv/bin/activate
 export FLASK_APP=app_src/webapp.py
-python -m flask run --host=0.0.0.0
+export FLASK_APP_CONFIG=/home/pi/repositories/netdevices_manager/config.yml
+python -m flask run --host=0.0.0.0 --reload --extra-files $FLASK_APP_CONFIG

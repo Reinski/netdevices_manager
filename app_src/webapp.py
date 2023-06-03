@@ -3,6 +3,7 @@ from . import app    # For application discovery by the 'flask' command.
 from . import views  # For import side-effects of setting up routes.
 from flask import flash
 #from flask_socketio import SocketIO, emit
+import os
 import subprocess
 import threading
 import re
@@ -10,15 +11,8 @@ import re
 # The public key must be added to the target's authorized keys
 # Also, the hostkeys must be known and trusted without prompting for confirmation
 devices = {
-    'mediamachine': {'user': 'root', 'sudo': '', },
-    'mediamachine-rp4': {'user': 'root', 'sudo': '', },
-    'mediamachine-03': {'user': 'root', 'sudo': '', },
     'octoprint': {'user': 'pi', 'sudo': 'sudo', },
     'raspberrypi': {'user': 'pi', 'sudo': 'sudo', },
-    'reinski-tvh': {'user': 'pi', 'sudo': 'sudo', },
-    'reinskisnips': {'user': 'pi', 'sudo': 'sudo', },
-    'sarahpi': {'user': 'pi', 'sudo': 'sudo', },
-#    'reinski-nas-2': {'user': 'admin', 'sudo': 'sudo', },
 }
 
 commands = {
@@ -107,6 +101,18 @@ def execute_command(command, host, dev_data, do_flash = True):
             flash("{0} {1}: {2}".format(host, command["cmdname"], command,stdout.decode()) )
         return stdout.decode()
 
+cfg = {}
+cfg_file = os.environ.get('FLASK_APP_CONFIG', '')
+if cfg_file:
+    print(f"Loading config from {cfg_file}")
+    import yaml
+    with open(cfg_file, 'r') as stream:
+        try:
+            cfg = yaml.safe_load(stream)
+            devices = cfg['devices']
+        except yaml.YAMLError as exc:
+            print(exc)
+print(devices)
 if __name__ == '__main__':
     print("starting server...")
     app.run(debug=True, host='0.0.0.0', port=4999)
